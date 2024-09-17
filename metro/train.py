@@ -13,6 +13,8 @@ from khrylib.utils import *
 from metro.utils.config import Config
 from metro.agents.metro_agent import MetroExpansionAgent
 
+from tqdm import tqdm
+
 flags.DEFINE_string('root_dir', 'result' , 'Root directory for writing '
                                                                       'logs/summaries/checkpoints.')
 flags.DEFINE_string('city_name', 'beijing', 'data_dir')
@@ -71,7 +73,7 @@ def main_loop(_):
         agent.infer(visualize=FLAGS.visualize)
     else:
         start_iteration = agent.start_iteration
-        for iteration in range(start_iteration, cfg.max_num_iterations):
+        for iteration in tqdm(range(start_iteration, cfg.max_num_iterations)):
             train_one_iteration(agent, iteration)
 
     agent.logger.info('training done!')
