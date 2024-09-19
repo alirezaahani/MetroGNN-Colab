@@ -6,11 +6,11 @@ import socket
 
 
 def get_file_path(file_path):
-    return file_path
+    cwd = os.getcwd()
+    return os.path.join(cwd, file_path)
 
     # IGNORE THIS
     hostname = socket.gethostname()
-    cwd = os.getcwd()
     if hostname == 'LAPTOP-V8NBPG91':
         file_path = os.path.join(cwd, file_path)
     elif hostname == 'rl2':

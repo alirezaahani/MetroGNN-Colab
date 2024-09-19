@@ -200,6 +200,7 @@ class MetroExpansionAgent(AgentPPO):
         else:
             assert isinstance(checkpoint, str)
             cp_path = '%s/%s.p' % (cfg.model_dir, checkpoint)
+        cp_path = get_file_path(cp_path)
         self.logger.info('loading model from checkpoint: %s' % cp_path)
         model_cp = pickle.load(open(cp_path, "rb"))
         self.actor_critic_net.load_state_dict(model_cp['actor_critic_dict'])
@@ -216,6 +217,7 @@ class MetroExpansionAgent(AgentPPO):
     def save_checkpoint(self, iteration):
 
         def save(cp_path):
+            cp_path = get_file_path(cp_path)
             with to_cpu(self.policy_net, self.value_net):
                 model_cp = {
                     'actor_critic_dict': self.actor_critic_net.state_dict(),
@@ -488,7 +490,7 @@ class MetroExpansionAgent(AgentPPO):
 
                     info_plan = dict()
                     episode_success = False
-                    for t in range(1, 10000):
+                    for t in range(1, 100):
                         state_var = tensorfy([state])
                         action = self.policy_net.select_action(
                             state_var, mean_action).numpy()
